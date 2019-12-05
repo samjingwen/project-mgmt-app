@@ -1,0 +1,14 @@
+<header>
+  <a class="logo" [routerLink]="['/']">Fixed Nav</a>
+  <a *ngIf="mobileQuery.matches" class="nav-toggle" [ngClass]="{ active: navOpen }" (click)="toggleNav()"></a>
+  <nav *ngIf="navOpen" [@inOutAnimation] class="nav-collapse">
+    <ul>
+      <li class="menu-item" [routerLink]="['/login']" (click)="toggleNav()"><a>Login</a></li>
+      <li class="menu-item active" (click)="toggleNav()"><a>Home</a></li>
+      <li class="menu-item" (click)="toggleNav()"><a>About</a></li>
+      <li class="menu-item" (click)="toggleNav()"><a>Projects</a></li>
+      <li class="menu-item" (click)="toggleNav()"><a>Blog</a></li>
+      <li class="menu-item" (click)="toggleNav()"><a href="http://www.google.com" target="_blank">Google</a></li>
+    </ul>
+  </nav>
+</header>
