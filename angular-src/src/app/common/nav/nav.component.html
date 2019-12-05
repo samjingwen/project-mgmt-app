@@ -1,5 +1,5 @@
 <header>
-  <a class="logo" [routerLink]="['/']">Fixed Nav</a>
+  <a class="logo" [routerLink]="['/']">Productivv</a>
   <a *ngIf="mobileQuery.matches" class="nav-toggle" [ngClass]="{ active: navOpen }" (click)="toggleNav()"></a>
   <nav class="nav-collapse" *ngIf="navOpen">
     <ul [@openClose]>
