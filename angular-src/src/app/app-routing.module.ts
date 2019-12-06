@@ -9,7 +9,7 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
   {
     path: "boards",
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     loadChildren: () =>
       import("./boards/boards.module").then(m => m.BoardsModule)
   },

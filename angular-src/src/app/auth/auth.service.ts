@@ -54,8 +54,9 @@ export class AuthService {
   }
 
   getAuthorizationToken() {
-    if (localStorage.getItem("bearer_jwt_token")) {
-      return localStorage.getItem("bearer_jwt_token");
+    const token = localStorage.getItem("bearer_jwt_token");
+    if (token) {
+      return JSON.parse(token)["access_token"];
     }
   }
 }

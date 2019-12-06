@@ -12,6 +12,7 @@ import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpErrorInterceptor } from "./interceptors/error.interceptor";
 import { AuthGuard } from "./auth/auth.guard";
+import { PrimeNgModule } from './primeng.module';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, NavComponent, HomeComponent],
@@ -19,7 +20,8 @@ import { AuthGuard } from "./auth/auth.guard";
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
-    MaterialModule,
+    // MaterialModule,
+    PrimeNgModule,
     HttpClientModule,
     ReactiveFormsModule
   ],
