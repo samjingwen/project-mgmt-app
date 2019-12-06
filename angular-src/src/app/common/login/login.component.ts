@@ -1,6 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { FormGroup, FormBuilder, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
+import { Router, ActivatedRoute } from "@angular/router";
 import { AuthService } from "src/app/auth/auth.service";
 
 @Component({
@@ -10,10 +10,13 @@ import { AuthService } from "src/app/auth/auth.service";
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
+  returnUrl: string = "";
+
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit() {
@@ -21,6 +24,9 @@ export class LoginComponent implements OnInit {
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required, Validators.minLength(3)]]
     });
+    this.route.queryParams.subscribe(
+      params => (this.returnUrl = params["returnUrl"] || "")
+    );
   }
 
   processForm() {
@@ -28,12 +34,9 @@ export class LoginComponent implements OnInit {
       const email = this.loginForm.value.email;
       const password = this.loginForm.value.password;
       console.log(email, password);
-      this.authService
-        .signInUser(email, password)
-        .subscribe(result => {
-          console.log(result);
-          localStorage.setItem("jwt_bearer_token", result["access_token"]);
-        });
+      this.authService.signInUser(email, password).subscribe(() => {
+        this.router.navigateByUrl(this.returnUrl);
+      });
     }
   }
 }

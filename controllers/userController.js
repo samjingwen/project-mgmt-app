@@ -22,8 +22,12 @@ function signInUser(req, res, next) {
   }
   console.log(user);
   _authenticateUser(user)
-    .then(token => {
-      res.status(200).json({ token_type: "Bearer", access_token: token });
+    .then(result => {
+      res.status(200).json({
+        token_type: "Bearer",
+        access_token: result.token,
+        expires_at: result.expires_at
+      });
     })
     .catch(error => {
       res.status(401).json({ message: "Something went wrong" });
@@ -49,7 +53,7 @@ function _authenticateUser(user) {
             exp: Math.floor(now / 1000) + 10,
             data: { ...user }
           }, process.env.JWT_SECRET)
-          resolve(token);
+          resolve({ token, expires_at: Math.floor(now / 1000) + 10 });
         }
         reject();
       })

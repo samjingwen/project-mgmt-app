@@ -11,6 +11,7 @@ import { MaterialModule } from "./material.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { HttpErrorInterceptor } from "./interceptors/error.interceptor";
+import { AuthGuard } from "./auth/auth.guard";
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, NavComponent, HomeComponent],
@@ -23,7 +24,8 @@ import { HttpErrorInterceptor } from "./interceptors/error.interceptor";
     ReactiveFormsModule
   ],
   providers: [
-    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
+    AuthGuard
   ],
   bootstrap: [AppComponent]
 })

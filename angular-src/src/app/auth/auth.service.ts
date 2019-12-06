@@ -1,11 +1,8 @@
 import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
-import {
-  HttpParams,
-  HttpHeaderResponse,
-  HttpHeaders
-} from "@angular/common/http";
+import { HttpParams, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
+import { tap } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
@@ -21,14 +18,39 @@ export class AuthService {
       "Content-Type",
       "application/x-www-form-urlencoded"
     );
-    return this.http.post("/api/user/authenticate", params.toString(), {
-      headers
-    });
+    return this.http
+      .post("/api/user/authenticate", params.toString(), {
+        headers
+      })
+      .pipe(
+        tap(result => {
+          this.setSession(result);
+        })
+      );
   }
 
   signOut() {
     localStorage.removeItem("bearer_jwt_token");
     this.router.navigate(["/"]);
+  }
+
+  private setSession(authResult) {
+    localStorage.setItem("bearer_jwt_token", JSON.stringify(authResult));
+  }
+
+  isLoggedIn() {
+    console.log(new Date().getTime() / 1000);
+    console.log(this.getExpiration());
+    return new Date().getTime() / 1000 < this.getExpiration();
+    // return true;
+  }
+
+  getExpiration() {
+    const token = localStorage.getItem("bearer_jwt_token");
+    if (token) {
+      return JSON.parse(token)["expires_at"];
+    }
+    return 0;
   }
 
   getAuthorizationToken() {

@@ -1,15 +1,12 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { GroupsComponent } from './groups/groups.component';
-import { TasksComponent } from './tasks/tasks.component';
-import { BoardsComponent } from './boards/boards.component';
-
-
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { GroupsComponent } from "./groups/groups.component";
+import { TasksComponent } from "./tasks/tasks.component";
+import { BoardsComponent } from "./boards/boards.component";
+import { BoardsRoutingModule } from "./boards-routing.module";
 
 @NgModule({
   declarations: [GroupsComponent, TasksComponent, BoardsComponent],
-  imports: [
-    CommonModule
-  ]
+  imports: [CommonModule, BoardsRoutingModule]
 })
-export class BoardsModule { }
+export class BoardsModule {}

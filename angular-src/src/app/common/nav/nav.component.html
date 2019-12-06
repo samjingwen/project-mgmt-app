@@ -4,8 +4,8 @@
   <nav class="nav-collapse" *ngIf="navOpen">
     <ul [@openClose]>
       <li class="menu-item" [routerLink]="['/login']" (click)="toggleNav()"><a>Login</a></li>
-      <li class="menu-item active" (click)="toggleNav()"><a>Home</a></li>
-      <li class="menu-item" (click)="toggleNav()"><a>About</a></li>
+      <li class="menu-item active" [routerLink]="['/']" (click)="toggleNav()"><a>Home</a></li>
+      <li class="menu-item" [routerLink]="['/boards']" (click)="toggleNav()"><a>About</a></li>
       <li class="menu-item" (click)="toggleNav()"><a href="http://www.google.com" target="_blank">Google</a></li>
     </ul>
   </nav>
