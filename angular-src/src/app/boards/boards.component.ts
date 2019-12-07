@@ -18,7 +18,7 @@ export class BoardsComponent implements OnInit {
       {
         label: "Main Table",
         icon: "fa fa-fw fa-table",
-        routerLink: ["./groups"]
+        routerLink: ["./table"]
       },
       {
         label: "Timeline",
@@ -27,7 +27,5 @@ export class BoardsComponent implements OnInit {
       },
       { label: "Kanban", icon: "fa fa-fw fa-trello" }
     ];
-
-    this.activeItem = this.items[0];
   }
 }

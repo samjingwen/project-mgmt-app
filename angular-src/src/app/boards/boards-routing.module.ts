@@ -1,8 +1,9 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule } from "@angular/router";
-import { BoardsComponent } from "./boards/boards.component";
-import { GroupsComponent } from "./groups/groups.component";
-import { TasksComponent } from "./tasks/tasks.component";
+import { BoardsComponent } from "./boards.component";
+import { GroupsComponent } from "./table/groups/groups.component";
+import { TasksComponent } from "./table/tasks/tasks.component";
+import { TableComponent } from "./table/table.component";
 
 const routes: Routes = [
   {
@@ -12,12 +13,31 @@ const routes: Routes = [
       {
         path: "",
         children: [
-          { path: "groups", component: GroupsComponent },
-          { path: "tasks", component: TasksComponent }
+          {
+            path: "",
+            // canActivate: [AuthGuard],
+            loadChildren: () =>
+              import("./table/table.module").then(m => m.TableModule)
+          },
+          {
+            path: "table",
+            // canActivate: [AuthGuard],
+            loadChildren: () =>
+              import("./table/table.module").then(m => m.TableModule)
+          }
+          // { path: "groups", component: GroupsComponent },
+          // { path: "tasks", component: TasksComponent }
         ]
       }
     ]
   }
+  // { path: "", component: BoardsComponent},
+  // {
+  //   path: "table",
+  //   // canActivate: [AuthGuard],
+  //   loadChildren: () =>
+  //     import("./table/table.module").then(m => m.TableModule)
+  // }
 ];
 
 @NgModule({
