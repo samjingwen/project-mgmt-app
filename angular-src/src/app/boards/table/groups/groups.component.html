@@ -1,1 +1,5 @@
-<p>groups works!</p>
+<div *ngIf="group">
+  <div>{{ group.group_name }}</div>
+  <span *ngFor="let column of columns">{{ column }}</span>
+  <app-tasks *ngFor="let task of group.tasks" [task]="task"></app-tasks>
+</div>

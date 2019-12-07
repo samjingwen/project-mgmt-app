@@ -1,0 +1,25 @@
+MongoDB:
+  collections:
+    boards:
+      _id:
+      // example: Project 1
+      board_name:
+      // reference to the groups below
+      groups: [] 
+      status:
+
+    groups:
+      _id:
+      // example: Production
+      group_name:
+      tasks: []
+
+    tasks:
+      _id:
+      // example: Fixed 404 error
+      task_name:
+      status: 
+    
+    statuses: 
+      _id: 
+      status: []
