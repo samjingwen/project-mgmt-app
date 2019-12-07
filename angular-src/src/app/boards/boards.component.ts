@@ -1,6 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { TabMenuModule } from "primeng/tabmenu";
-import { MenuItem } from "primeng/api";
+import { Router, ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-boards",
@@ -8,24 +7,28 @@ import { MenuItem } from "primeng/api";
   styleUrls: ["./boards.component.css"]
 })
 export class BoardsComponent implements OnInit {
-  items: MenuItem[];
-  activeItem: MenuItem;
+  items = [
+    { label: "Main Table", routerLink: "./table", icon: ['fas', 'table'] },
+    { label: "Kanban", routerLink: "./kanban", icon: ['fab', 'trello'] },
+    { label: "Timeline", routerLink: "./timeline", icon: ['fas', 'calendar-alt'] }
+  ];
+  activeLink = this.items[0].label;
 
-  constructor() {}
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
-    this.items = [
-      {
-        label: "Main Table",
-        icon: "fa fa-fw fa-table",
-        routerLink: ["./table"]
-      },
-      {
-        label: "Timeline",
-        icon: "fa fa-fw fa-calendar",
-        routerLink: ["./tasks"]
-      },
-      { label: "Kanban", icon: "fa fa-fw fa-trello" }
-    ];
+    // this.items = [
+    //   {
+    //     label: "Main Table",
+    //     icon: "fa fa-fw fa-table",
+    //     routerLink: ["./table"]
+    //   },
+    //   {
+    //     label: "Timeline",
+    //     icon: "fa fa-fw fa-calendar",
+    //     routerLink: ["./tasks"]
+    //   },
+    //   { label: "Kanban", icon: "fa fa-fw fa-trello" }
+    // ];
   }
 }

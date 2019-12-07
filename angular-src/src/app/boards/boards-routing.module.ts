@@ -4,6 +4,7 @@ import { BoardsComponent } from "./boards.component";
 import { GroupsComponent } from "./table/groups/groups.component";
 import { TasksComponent } from "./table/tasks/tasks.component";
 import { TableComponent } from "./table/table.component";
+import { KanbanComponent } from "./kanban/kanban.component";
 
 const routes: Routes = [
   {
@@ -24,6 +25,13 @@ const routes: Routes = [
             // canActivate: [AuthGuard],
             loadChildren: () =>
               import("./table/table.module").then(m => m.TableModule)
+          },
+          {
+            path: "kanban",
+            // canActivate: [AuthGuard],
+            // loadChildren: () =>
+            //   import("./table/table.module").then(m => m.TableModule)
+            component: KanbanComponent
           }
           // { path: "groups", component: GroupsComponent },
           // { path: "tasks", component: TasksComponent }

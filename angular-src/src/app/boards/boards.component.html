@@ -1,3 +1,8 @@
-<p-tabMenu [model]="items" [activeItem]="items[0]">
-</p-tabMenu>
+<nav mat-tab-nav-bar backgroundColor="primary">
+  <a mat-tab-link *ngFor="let item of items; let i = index" (click)="activeLink = item.label"
+    [active]="activeLink == item.label" [routerLink]="item.routerLink">
+    <fa-icon class="tab-icon" [icon]="item.icon"></fa-icon>
+    {{item.label}}
+  </a>
+</nav>
 <router-outlet></router-outlet>
