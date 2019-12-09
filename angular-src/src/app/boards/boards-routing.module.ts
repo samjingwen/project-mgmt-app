@@ -14,38 +14,13 @@ const routes: Routes = [
       {
         path: "",
         children: [
-          {
-            path: "",
-            // canActivate: [AuthGuard],
-            loadChildren: () =>
-              import("./table/table.module").then(m => m.TableModule)
-          },
-          {
-            path: "table",
-            // canActivate: [AuthGuard],
-            loadChildren: () =>
-              import("./table/table.module").then(m => m.TableModule)
-          },
-          {
-            path: "kanban",
-            // canActivate: [AuthGuard],
-            // loadChildren: () =>
-            //   import("./table/table.module").then(m => m.TableModule)
-            component: KanbanComponent
-          }
-          // { path: "groups", component: GroupsComponent },
-          // { path: "tasks", component: TasksComponent }
+          { path: "", component: TableComponent },
+          { path: "table", component: TableComponent },
+          { path: "kanban", component: KanbanComponent }
         ]
       }
     ]
   }
-  // { path: "", component: BoardsComponent},
-  // {
-  //   path: "table",
-  //   // canActivate: [AuthGuard],
-  //   loadChildren: () =>
-  //     import("./table/table.module").then(m => m.TableModule)
-  // }
 ];
 
 @NgModule({
