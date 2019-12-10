@@ -10,6 +10,7 @@ import { TableComponent } from "./table/table.component";
 import { TasksComponent } from './table/tasks/tasks.component';
 import { GroupsComponent } from './table/groups/groups.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FocusableDirective } from './editable/focusable.directive';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     TableComponent,
     TasksComponent,
     GroupsComponent,
-    KanbanComponent
+    KanbanComponent,
+    FocusableDirective
   ],
   imports: [
     CommonModule,
