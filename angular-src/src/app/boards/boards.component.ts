@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router, ActivatedRoute } from "@angular/router";
+import { BoardsService } from "./boards.service";
 
 @Component({
   selector: "app-boards",
@@ -8,13 +9,23 @@ import { Router, ActivatedRoute } from "@angular/router";
 })
 export class BoardsComponent implements OnInit {
   items = [
-    { label: "Main Table", routerLink: "./table", icon: ['fas', 'table'] },
-    { label: "Kanban", routerLink: "./kanban", icon: ['fab', 'trello'] },
-    { label: "Timeline", routerLink: "./timeline", icon: ['fas', 'calendar-alt'] }
+    { label: "Main Table", routerLink: "./table", icon: ["fas", "table"] },
+    { label: "Kanban", routerLink: "./kanban", icon: ["fab", "trello"] },
+    {
+      label: "Timeline",
+      routerLink: "./timeline",
+      icon: ["fas", "calendar-alt"]
+    }
   ];
   activeLink = this.items[0].label;
 
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private boardsService: BoardsService
+  ) {
+    this.boardsService.initSocket();
+  }
 
   ngOnInit() {
     // this.items = [

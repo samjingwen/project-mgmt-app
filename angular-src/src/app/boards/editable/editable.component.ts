@@ -29,6 +29,7 @@ export class EditableComponent implements OnInit, OnDestroy {
   @Input() editModeTemplate: TemplateRef<any>;
 
   @Output() update = new EventEmitter();
+  @Output() undoChanges = new EventEmitter();
 
   mode: "view" | "edit" = "view";
 
@@ -44,24 +45,24 @@ export class EditableComponent implements OnInit, OnDestroy {
     return this.el.nativeElement;
   }
 
-  // @HostListener('document:click', ['$event'])
+  // When clicked outside of editable component, 
+  // undo changes and exit edit mode
   editModeHandler() {
     merge(
       fromEvent(this.element, "click").pipe(map(() => false)),
-      fromEvent(document.body, "click").pipe(map(() => true))
+      fromEvent(document, "click").pipe(map(() => true))
     )
       .pipe(takeUntil(this.unsubscribe$), throttleTime(0))
       .subscribe(toToggle => {
         if (toToggle) {
           this.mode = "view";
+          this.undoChanges.next();
         }
       });
   }
 
-  toggleMode(mode?: "view" | "edit") {
-    if (mode) {
-      this.mode = mode;
-    } else if (this.mode === "edit") {
+  toggleMode() {
+    if (this.mode === "edit") {
       this.mode = "view";
       this.update.next();
     } else {

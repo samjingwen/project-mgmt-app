@@ -10,20 +10,17 @@ import { HomeComponent } from "./common/home/home.component";
 import { MaterialModule } from "./material.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+
 import { HttpErrorInterceptor } from "./interceptors/error.interceptor";
 import { AuthGuard } from "./auth/auth.guard";
+
 import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    LoginComponent,
-    NavComponent,
-    HomeComponent,
-  ],
+  declarations: [AppComponent, LoginComponent, NavComponent, HomeComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
