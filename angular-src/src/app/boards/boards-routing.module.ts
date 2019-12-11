@@ -1,10 +1,9 @@
 import { NgModule } from "@angular/core";
 import { Routes, RouterModule, PreloadAllModules } from "@angular/router";
 import { BoardsComponent } from "./boards.component";
-import { GroupsComponent } from "./table/groups/groups.component";
-import { TasksComponent } from "./table/tasks/tasks.component";
 import { TableComponent } from "./table/table.component";
 import { KanbanComponent } from "./kanban/kanban.component";
+import { TimelineComponent } from './timeline/timeline.component';
 
 const routes: Routes = [
   {
@@ -16,7 +15,8 @@ const routes: Routes = [
         children: [
           { path: "", component: TableComponent },
           { path: "table", component: TableComponent },
-          { path: "kanban", component: KanbanComponent }
+          { path: "kanban", component: KanbanComponent },
+          { path: "timeline", component: TimelineComponent }
         ]
       }
     ]

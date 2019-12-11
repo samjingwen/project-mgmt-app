@@ -7,10 +7,10 @@ import { KanbanComponent } from "./kanban/kanban.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { EditableComponent } from "./editable/editable.component";
 import { TableComponent } from "./table/table.component";
-import { TasksComponent } from './table/tasks/tasks.component';
 import { GroupsComponent } from './table/groups/groups.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FocusableDirective } from './editable/focusable.directive';
+import { TimelineComponent } from './timeline/timeline.component';
 
 @NgModule({
   declarations: [
@@ -18,10 +18,10 @@ import { FocusableDirective } from './editable/focusable.directive';
     KanbanComponent,
     EditableComponent,
     TableComponent,
-    TasksComponent,
+    TimelineComponent,
     GroupsComponent,
     KanbanComponent,
-    FocusableDirective
+    FocusableDirective,
   ],
   imports: [
     CommonModule,

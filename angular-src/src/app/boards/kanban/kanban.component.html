@@ -1,1 +1,27 @@
-<p>kanban works!</p>
+<!-- <div class="example-container">
+  <h2>To do</h2>
+  <div cdkDropList #todoList="cdkDropList" [cdkDropListData]="todo" [cdkDropListConnectedTo]="[doneList]"
+    class="example-list" (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of todo" cdkDrag>{{item}}</div>
+  </div>
+</div>
+<div class="example-container">
+  <h2>Done</h2>
+  <div cdkDropList #doneList="cdkDropList" [cdkDropListData]="done" [cdkDropListConnectedTo]="[todoList]"
+    class="example-list" (cdkDropListDropped)="drop($event)">
+    <div class="example-box" *ngFor="let item of done" cdkDrag>{{item}}</div>
+  </div>
+</div> -->
+<ng-container *ngIf="kanban !== {}">
+  <div cdkDropListGroup>
+    <div class="example-container" *ngFor="let item of kanban | keyvalue; let index=index">
+      <h2>{{ item.key }}</h2>
+      <div cdkDropList [cdkDropListData]="item.value" class="example-list" (cdkDropListDropped)="drop($event)">
+        <div class="example-box" *ngFor="let task of item.value" cdkDrag>
+          <p>{{ task.task_name }}</p>
+          <p>{{ task.group_name}}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-container>
