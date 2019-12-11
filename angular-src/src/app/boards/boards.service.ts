@@ -25,9 +25,9 @@ export class BoardsService {
   }
 
   updateGroup(group) {
-    // return this.http.post(`${this.apiUrl}/boards/update`, board);
+    return this.http.post(`${this.apiUrl}/boards/update`, group);
 
-    this.socket.emit("updateBoard", group);
+    // this.socket.emit("updateBoard", group);
   }
 
   onUpdate(): Observable<any> {

@@ -3,18 +3,79 @@
   <table mat-table [dataSource]="dataSource.tasks" class="mat-elevation-z8">
     <ng-container *ngFor="let column of displayedColumns; let col=index" [matColumnDef]="column">
       <th mat-header-cell *matHeaderCellDef> {{ column }} </th>
-      <td mat-cell *matCellDef="let element; let index = index">
-        <app-editable #editableTpl [viewModeTemplate]="viewMode" [editModeTemplate]="editMode"
-          (update)="updateField(index, lookupColumns[col])" (undoChanges)="undoChanges()">
-          <ng-template #viewMode>
-            {{ element[lookupColumns[col]] }}
-            <mat-icon (click)="editableTpl.toggleMode()">create</mat-icon>
-          </ng-template>
-          <ng-template #editMode>
-            <input type="text" [formControl]="getControl(index, lookupColumns[col])" appFocusable>
-            <mat-icon (click)="editableTpl.toggleMode()">done</mat-icon>
-          </ng-template>
-        </app-editable>
+      <td mat-cell *matCellDef="let element; let row = index">
+        <ng-container [ngSwitch]="columnTypes[col]">
+          <!-- input field -->
+          <ng-container *ngSwitchCase="'text'">
+            <app-editable #editableTpl [viewModeTemplate]="txtViewMode" [editModeTemplate]="txtEditMode"
+              (update)="updateField(row, lookupColumns[col])" (undoChanges)="undoChanges()">
+              <ng-template #txtViewMode>
+                {{ element[lookupColumns[col]] }}
+                <mat-icon (click)="editableTpl.toggleMode()">create</mat-icon>
+              </ng-template>
+              <ng-template #txtEditMode>
+                <input type="text" [formControl]="getControl(row, lookupColumns[col])" appFocusable>
+                <mat-icon (click)="editableTpl.toggleMode()">done</mat-icon>
+              </ng-template>
+            </app-editable>
+          </ng-container>
+          <!-- owner field -->
+          <ng-container *ngSwitchCase="'owner'">
+            <mat-form-field>
+              <mat-select [formControl]="getControl(row, lookupColumns[col])"
+                (selectionChange)="updateField(row, lookupColumns[col])">
+                <mat-option *ngFor="let owner of owners" [value]="owner.user_id">
+                  {{ owner.display_name }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <!-- priority field -->
+          <ng-container *ngSwitchCase="'priority'">
+            <mat-form-field>
+              <mat-select [formControl]="getControl(row, lookupColumns[col])"
+                (selectionChange)="updateField(row, lookupColumns[col])">
+                <mat-option *ngFor="let priority of priorities" [value]="priority">
+                  {{ priority }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <!-- priority field -->
+          <ng-container *ngSwitchCase="'status'">
+            <mat-form-field>
+              <mat-select [formControl]="getControl(row, lookupColumns[col])"
+                (selectionChange)="updateField(row, lookupColumns[col])">
+                <mat-option *ngFor="let status of statuses" [value]="status">
+                  {{ status }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </ng-container>
+          <!-- date field -->
+          <ng-container *ngSwitchCase="'datepicker'">
+            <mat-form-field>
+              <input [formControl]="getControl(row, lookupColumns[col])" readonly matInput [matDatepicker]="dobPicker"
+                (click)="dobPicker.open()" (dateChange)="updateField(row, lookupColumns[col])">
+              <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+              <mat-datepicker #dobPicker></mat-datepicker>
+            </mat-form-field>
+          </ng-container>
+          <!-- time field -->
+          <ng-container *ngSwitchCase="'number'">
+            <app-editable #editableTpl [viewModeTemplate]="numViewMode" [editModeTemplate]="numEditMode"
+              (update)="updateField(row, lookupColumns[col])" (undoChanges)="undoChanges()">
+              <ng-template #numViewMode>
+                {{ element[lookupColumns[col]] }}
+                <mat-icon (click)="editableTpl.toggleMode()">create</mat-icon>
+              </ng-template>
+              <ng-template #numEditMode>
+                <input type="number" [formControl]="getControl(row, lookupColumns[col])" appFocusable>
+                <mat-icon (click)="editableTpl.toggleMode()">done</mat-icon>
+              </ng-template>
+            </app-editable>
+          </ng-container>
+        </ng-container>
       </td>
     </ng-container>
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

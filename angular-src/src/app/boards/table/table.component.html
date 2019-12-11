@@ -1,4 +1,5 @@
 <div *ngIf="board">
-  <app-groups *ngFor="let group of board.groups" [group]="group" [displayed_columns]="board.displayed_columns"
-    [lookup_columns]="board.lookup_columns"></app-groups>
+  <app-groups *ngFor="let group of board.groups" [group]="group" [displayedColumns]="board.displayed_columns"
+    [lookupColumns]="board.lookup_columns" [columnTypes]="board.column_types" [statuses]="board.statuses"
+    [owners]="board.owners" [priorities]="board.priorities" [statuses]="board.statuses"></app-groups>
 </div>
