@@ -9,4 +9,8 @@ const pool = require('../config/mysql.config');
 
 router.post('/authenticate', signInUser);
 
+router.post('/register', function(req, res, next) {
+  console.log(req.body);
+});
+
 module.exports = router;

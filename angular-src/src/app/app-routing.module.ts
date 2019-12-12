@@ -5,10 +5,12 @@ import { LoginComponent } from "./common/login/login.component";
 import { AuthGuard } from "./auth/auth.guard";
 import { KanbanComponent } from "./boards/kanban/kanban.component";
 import { BoardsResolver } from "./boards/boards.resolver";
+import { RegisterComponent } from './common/register/register.component';
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
   { path: "login", component: LoginComponent },
+  { path: "register", component: RegisterComponent },
   {
     path: "boards/:boardId",
     // canActivate: [AuthGuard],

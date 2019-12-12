@@ -3,11 +3,14 @@ import { HttpClient } from "@angular/common/http";
 import { HttpParams, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { tap } from "rxjs/operators";
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
+  apiUrl = environment.apiUrl;
+
   constructor(private http: HttpClient, private router: Router) {}
 
   signInUser(email: string, password: string) {
@@ -32,6 +35,16 @@ export class AuthService {
   signOut() {
     localStorage.removeItem("bearer_jwt_token");
     this.router.navigate(["/"]);
+  }
+
+  register(user) {
+    const params = new HttpParams()
+      .set("email", user.email)
+      .set("password", user.password);
+    const options = {
+      headers: new HttpHeaders().set("Content-Type", "application/x-www-form-urlencoded")
+    };
+    return this.http.post(`${this.apiUrl}/user/register`, params.toString(), options);
   }
 
   private setSession(authResult) {

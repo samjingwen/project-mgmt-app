@@ -20,9 +20,10 @@ import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { BoardsResolver } from './boards/boards.resolver';
+import { RegisterComponent } from './common/register/register.component';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, NavComponent, HomeComponent],
+  declarations: [AppComponent, LoginComponent, NavComponent, HomeComponent, RegisterComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
