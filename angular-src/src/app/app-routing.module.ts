@@ -1,8 +1,9 @@
 import { NgModule } from "@angular/core";
-import { Routes, RouterModule, PreloadAllModules } from "@angular/router";
+import { Routes, RouterModule } from "@angular/router";
 import { HomeComponent } from "./common/home/home.component";
 import { LoginComponent } from "./common/login/login.component";
 import { AuthGuard } from "./auth/auth.guard";
+import { KanbanComponent } from "./boards/kanban/kanban.component";
 import { BoardsResolver } from "./boards/boards.resolver";
 
 const routes: Routes = [

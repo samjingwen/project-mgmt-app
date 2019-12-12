@@ -9,6 +9,7 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { HomeComponent } from "./common/home/home.component";
 import { MaterialModule } from "./material.module";
 import { ReactiveFormsModule } from "@angular/forms";
+import { FlexLayoutModule } from '@angular/flex-layout';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { HttpErrorInterceptor } from "./interceptors/error.interceptor";
@@ -28,7 +29,8 @@ import { BoardsResolver } from './boards/boards.resolver';
     AppRoutingModule,
     MaterialModule,
     HttpClientModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    FlexLayoutModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },

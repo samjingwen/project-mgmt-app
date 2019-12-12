@@ -1,0 +1,70 @@
+<div class="edit-container" [formGroup]="taskForm">
+  <h2 mat-dialog-title>Edit Task</h2>
+  <mat-dialog-content class="dialog-content" fxLayout="column">
+    <ng-container *ngFor="let displayedColumn of data.displayed_columns; let index = index">
+      <ng-container [ngSwitch]="data.column_types[index]">
+        <!-- text input -->
+        <ng-container *ngSwitchCase="'text'">
+          <mat-form-field>
+            <mat-label>{{ displayedColumn }}</mat-label>
+            <input type="text" [formControl]="getControl(data.lookup_columns[index])" matInput>
+          </mat-form-field>
+        </ng-container>
+        <!-- owner -->
+        <ng-container *ngSwitchCase="'owner'">
+          <mat-form-field>
+            <mat-label>{{ displayedColumn }}</mat-label>
+            <mat-select [formControl]="getControl(data.lookup_columns[index])">
+              <mat-option *ngFor="let owner of data.owners" [value]="owner.user_id">
+                {{ owner.display_name }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <!-- priority -->
+        <ng-container *ngSwitchCase="'priority'">
+          <mat-form-field>
+            <mat-label>{{ displayedColumn }}</mat-label>
+            <mat-select [formControl]="getControl(data.lookup_columns[index])">
+              <mat-option *ngFor="let priority of data.priorities" [value]="priority">
+                {{ priority }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <!-- status -->
+        <ng-container *ngSwitchCase="'status'">
+          <mat-form-field>
+            <mat-label>{{ displayedColumn }}</mat-label>
+            <mat-select [formControl]="getControl(data.lookup_columns[index])">
+              <mat-option *ngFor="let status of data.statuses" [value]="status">
+                {{ status }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </ng-container>
+        <!-- datepicker -->
+        <ng-container *ngSwitchCase="'datepicker'">
+          <mat-form-field>
+            <mat-label>{{ displayedColumn }}</mat-label>
+            <input [formControl]="getControl(data.lookup_columns[index])" readonly matInput [matDatepicker]="dobPicker"
+              (click)="dobPicker.open()">
+            <mat-datepicker-toggle matSuffix [for]="dobPicker"></mat-datepicker-toggle>
+            <mat-datepicker #dobPicker></mat-datepicker>
+          </mat-form-field>
+        </ng-container>
+        <!-- number -->
+        <ng-container *ngSwitchCase="'number'">
+          <mat-form-field>
+            <mat-label>{{ displayedColumn }}</mat-label>
+            <input [formControl]="getControl(data.lookup_columns[index])" matInput>
+          </mat-form-field>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <mat-dialog-actions fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="end">
+      <button id="update-btn" class="update-btn" color="success" mat-raised-button (click)="update()">Add</button>
+      <button id="close-btn" class="close-btn" mat-raised-button (click)="close()">Close</button>
+    </mat-dialog-actions>
+  </mat-dialog-content>
+</div>

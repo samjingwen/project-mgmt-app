@@ -11,6 +11,8 @@ import { GroupsComponent } from './table/groups/groups.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { FocusableDirective } from './editable/focusable.directive';
 import { TimelineComponent } from './timeline/timeline.component';
+import { EditComponent } from './kanban/edit/edit.component';
+import { FlexLayoutModule } from '@angular/flex-layout';
 
 @NgModule({
   declarations: [
@@ -22,13 +24,16 @@ import { TimelineComponent } from './timeline/timeline.component';
     GroupsComponent,
     KanbanComponent,
     FocusableDirective,
+    EditComponent,
   ],
   imports: [
     CommonModule,
     BoardsRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
-    FontAwesomeModule
-  ]
+    FontAwesomeModule,
+    FlexLayoutModule
+  ],
+  entryComponents: [EditComponent]
 })
 export class BoardsModule {}

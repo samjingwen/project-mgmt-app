@@ -9,17 +9,18 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class TableComponent implements OnInit {
   // boardId = "5deb90dc97265b80c79bbd31";
-  board: any;
+  table: any;
 
   constructor(
     private boardsService: BoardsService,
-    private activatedRoute: ActivatedRoute,
-    private route: ActivatedRoute
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit() {
     // Load data before loading component
-    this.board = this.route.snapshot.data.board;
+    this.activatedRoute.data.subscribe(data => {
+      this.table = data.board.table;
+    });
 
     // this.board = this.boardsService.onUpdate().subscribe(board => {
     //   console.log(board);
