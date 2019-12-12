@@ -3,7 +3,8 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import * as socketIo from "socket.io-client";
 import { fromEvent, Observable } from "rxjs";
-import { AuthService } from '../auth/auth.service';
+import { AuthService } from "../auth/auth.service";
+import { tap, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: "root"
@@ -25,8 +26,15 @@ export class BoardsService {
     return this.http.get(`${this.apiUrl}/boards/${boardId}`);
   }
 
-  getBoardsOfCurrentUser(){
-    return this.http.get(`${this.apiUrl}/boards/user/${this.authService.currentUserId}`)
+  getBoardsOfCurrentUser() {
+    return this.http
+      .get(`${this.apiUrl}/boards/user/${this.authService.currentUserId}`)
+      .pipe(
+        map(data => {
+          console.log(data);
+          return data as Array<any>;
+        })
+      );
   }
 
   updateGroup(group) {
@@ -36,7 +44,7 @@ export class BoardsService {
   }
 
   onUpdate(): Observable<any> {
-    console.log('patching new values to all sessions');
+    console.log("patching new values to all sessions");
     return fromEvent(this.socket, "onUpdate");
   }
 }

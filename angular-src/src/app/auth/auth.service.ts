@@ -4,14 +4,14 @@ import { HttpParams, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { tap } from "rxjs/operators";
 import { environment } from "../../environments/environment";
-import { Subject } from "rxjs";
+import { Subject, BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
   apiUrl = environment.apiUrl;
-  isLoggedIn$ = new Subject<string>();
+  isLoggedIn$ = new BehaviorSubject<boolean>(this.isLoggedIn());
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -29,13 +29,14 @@ export class AuthService {
         this.setSession(result);
       }),
       tap(() => {
-        this.isLoggedIn$.next(this.loggedInUser);
+        this.isLoggedIn$.next(true);
       })
     );
   }
 
   signOut() {
     localStorage.removeItem("bearer_jwt_token");
+    this.isLoggedIn$.next(false);
     this.router.navigate(["/"]);
   }
 

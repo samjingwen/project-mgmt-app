@@ -11,7 +11,7 @@ import {
   animate,
   state
 } from "@angular/animations";
-import { AuthService } from 'src/app/auth/auth.service';
+import { AuthService } from "src/app/auth/auth.service";
 
 @Component({
   selector: "app-nav",
@@ -24,12 +24,20 @@ export class NavComponent implements OnInit {
   constructor(private authService: AuthService) {}
 
   ngOnInit() {
-    this.authService.isLoggedIn$.subscribe(user => {
-      this.isLoggedIn = true;
-      this.currentUser = user;
+    this.authService.isLoggedIn$.subscribe(isLoggedIn => {
+      if (isLoggedIn) {
+        this.isLoggedIn = true;
+        this.currentUser = this.authService.loggedInUser;
+      } else{
+        this.isLoggedIn = false;
+        this.currentUser = null;
+      }
     });
+  }
 
-    console.log(this.currentUser);
+
+  signOut(){
+    this.authService.signOut();
   }
 
   ngOnDestroy(): void {}

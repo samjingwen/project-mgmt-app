@@ -19,6 +19,7 @@ export class TableComponent implements OnInit {
   ngOnInit() {
     // Load data before loading component
     this.activatedRoute.data.subscribe(data => {
+      console.log(data);
       this.table = data.board.table;
     });
 

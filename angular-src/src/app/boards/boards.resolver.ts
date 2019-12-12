@@ -6,7 +6,7 @@ import {
 import { Injectable } from "@angular/core";
 import { BoardsService } from "./boards.service";
 import { Observable } from "rxjs";
-import { map } from "rxjs/operators";
+import { map, tap } from "rxjs/operators";
 
 @Injectable()
 export class BoardsResolver implements Resolve<any> {
@@ -61,6 +61,9 @@ export class BoardsResolver implements Resolve<any> {
           });
           return { table: board, kanban: kanban };
         });
+      }),
+      tap(data => {
+        console.log(data);
       })
     );
   }

@@ -19,6 +19,7 @@
     <ng-container *ngIf="isLoggedIn; else loggedOut">
       <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
         Welcome, {{ currentUser }}
+        <button mat-button (click)="signOut()">Log Out</button>
       </div>
     </ng-container>
     <ng-template #loggedOut>
