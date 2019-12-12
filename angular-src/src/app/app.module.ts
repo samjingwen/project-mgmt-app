@@ -18,6 +18,7 @@ import { FaIconLibrary } from "@fortawesome/angular-fontawesome";
 import { fas } from "@fortawesome/free-solid-svg-icons";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
+import { BoardsResolver } from './boards/boards.resolver';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, NavComponent, HomeComponent],
@@ -31,7 +32,8 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
-    AuthGuard
+    AuthGuard,
+    BoardsResolver
   ],
   bootstrap: [AppComponent]
 })

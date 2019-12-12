@@ -2,16 +2,18 @@ import { NgModule } from "@angular/core";
 import { Routes, RouterModule, PreloadAllModules } from "@angular/router";
 import { HomeComponent } from "./common/home/home.component";
 import { LoginComponent } from "./common/login/login.component";
-import { AuthGuard } from './auth/auth.guard';
+import { AuthGuard } from "./auth/auth.guard";
+import { BoardsResolver } from "./boards/boards.resolver";
 
 const routes: Routes = [
   { path: "", component: HomeComponent },
   { path: "login", component: LoginComponent },
   {
-    path: "boards",
+    path: "boards/:boardId",
     // canActivate: [AuthGuard],
     loadChildren: () =>
-      import("./boards/boards.module").then(m => m.BoardsModule)
+      import("./boards/boards.module").then(m => m.BoardsModule),
+    resolve: { board: BoardsResolver }
   },
   { path: "**", redirectTo: "/", pathMatch: "full" }
 ];

@@ -28,6 +28,8 @@ export class BoardsComponent implements OnInit {
   }
 
   ngOnInit() {
+    const boardId = this.activatedRoute.snapshot.params.boardId;
+    console.log(boardId);
     // this.items = [
     //   {
     //     label: "Main Table",

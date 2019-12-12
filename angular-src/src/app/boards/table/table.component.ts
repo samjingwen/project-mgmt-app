@@ -1,5 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { BoardsService } from "../boards.service";
+import { ActivatedRoute } from "@angular/router";
 
 @Component({
   selector: "app-table",
@@ -7,21 +8,22 @@ import { BoardsService } from "../boards.service";
   styleUrls: ["./table.component.css"]
 })
 export class TableComponent implements OnInit {
-  boardId = "5deb90dc97265b80c79bbd31";
+  // boardId = "5deb90dc97265b80c79bbd31";
   board: any;
 
-  constructor(private boardsService: BoardsService) {}
+  constructor(
+    private boardsService: BoardsService,
+    private activatedRoute: ActivatedRoute,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.boardsService.getBoardById(this.boardId).subscribe(result => {
-      console.log(result);
-      this.board = result;
-    });
+    // Load data before loading component
+    this.board = this.route.snapshot.data.board;
 
-
-    this.boardsService.onUpdate().subscribe(board => {
-      console.log(board);
-      this.board = board;
-    })
+    // this.board = this.boardsService.onUpdate().subscribe(board => {
+    //   console.log(board);
+    //   this.board = board;
+    // });
   }
 }
