@@ -3,6 +3,7 @@ import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import * as socketIo from "socket.io-client";
 import { fromEvent, Observable } from "rxjs";
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: "root"
@@ -13,7 +14,7 @@ export class BoardsService {
 
   private socket;
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private authService: AuthService) {}
 
   initSocket() {
     console.log(">>>>> " + this.WS_SERVER_URL);
@@ -22,6 +23,10 @@ export class BoardsService {
 
   getBoardById(boardId: string) {
     return this.http.get(`${this.apiUrl}/boards/${boardId}`);
+  }
+
+  getBoardsOfCurrentUser(){
+    return this.http.get(`${this.apiUrl}/boards/user/${this.authService.currentUserId}`)
   }
 
   updateGroup(group) {

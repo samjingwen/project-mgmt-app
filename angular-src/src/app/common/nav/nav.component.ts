@@ -11,57 +11,26 @@ import {
   animate,
   state
 } from "@angular/animations";
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: "app-nav",
   templateUrl: "./nav.component.html",
-  styleUrls: ["./nav.component.css"],
-  animations: [
-    trigger("openClose", [
-      transition(":enter", [
-        style({ opacity: 0 }),
-        animate("1s ease-out", style({ opacity: 1 }))
-      ])
-      // transition(":leave", [
-      //   style({ opacity: 1 }),
-      //   animate("0.4s ease-in", style({ opacity: 0 }))
-      // ])
-    ])
-  ]
+  styleUrls: ["./nav.component.css"]
 })
 export class NavComponent implements OnInit {
-  mobileQuery: MediaQueryList;
-  navOpen: boolean = true;
+  currentUser: string;
+  isLoggedIn: boolean;
+  constructor(private authService: AuthService) {}
 
-  private _mobileQueryListener: () => void;
+  ngOnInit() {
+    this.authService.isLoggedIn$.subscribe(user => {
+      this.isLoggedIn = true;
+      this.currentUser = user;
+    });
 
-  constructor(
-    changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher,
-    breakpointObserver: BreakpointObserver
-  ) {
-    this.mobileQuery = media.matchMedia("(max-width: 40em)");
-    this._mobileQueryListener = () => changeDetectorRef.detectChanges();
-    this.mobileQuery.addListener(this._mobileQueryListener);
-
-    breakpointObserver
-      .observe(["(max-width: 40em)"])
-      .subscribe((state: BreakpointState) => {
-        if (state.matches) {
-          this.navOpen = false;
-        } else {
-          this.navOpen = true;
-        }
-      });
+    console.log(this.currentUser);
   }
 
-  ngOnInit() {}
-
-  toggleNav() {
-    if (this.mobileQuery.matches) this.navOpen = !this.navOpen;
-  }
-
-  ngOnDestroy(): void {
-    this.mobileQuery.removeListener(this._mobileQueryListener);
-  }
+  ngOnDestroy(): void {}
 }

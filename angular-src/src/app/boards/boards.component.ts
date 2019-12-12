@@ -24,18 +24,6 @@ export class BoardsComponent implements OnInit {
 
   ngOnInit() {
     const boardId = this.activatedRoute.snapshot.params.boardId;
-    // this.items = [
-    //   {
-    //     label: "Main Table",
-    //     icon: "fa fa-fw fa-table",
-    //     routerLink: ["./table"]
-    //   },
-    //   {
-    //     label: "Timeline",
-    //     icon: "fa fa-fw fa-calendar",
-    //     routerLink: ["./tasks"]
-    //   },
-    //   { label: "Kanban", icon: "fa fa-fw fa-trello" }
-    // ];
+
   }
 }

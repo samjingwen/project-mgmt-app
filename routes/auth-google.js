@@ -2,11 +2,11 @@ const express = require('express');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 const passport = require('passport');
 
-const auth = require('../config/passport.config');
+const auth = require('../utils/passport.utils');
 
 const router = express.Router();
 
-auth(passport);
+auth.signInByGoogle(passport);
 
 router.get(
   '/google',
@@ -21,7 +21,17 @@ router.get(
     failureRedirect: '/',
   }),
   (req, res) => {
-    res.send('succcess');
+    console.log(req.user);
+    if (req.user.token) {
+      res.json({
+        token_type: 'GoogleOAuth',
+        access_token: req.user.token,
+      });
+    } else {
+      res.json({
+        status: 'Something went wrong',
+      });
+    }
   }
 );
 

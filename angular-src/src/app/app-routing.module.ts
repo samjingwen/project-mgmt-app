@@ -12,11 +12,11 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
   {
-    path: "boards/:boardId",
+    path: "boards/:userId",
     // canActivate: [AuthGuard],
     loadChildren: () =>
       import("./boards/boards.module").then(m => m.BoardsModule),
-    resolve: { board: BoardsResolver }
+    resolve: { boards: BoardsResolver }
   },
   { path: "**", redirectTo: "/", pathMatch: "full" }
 ];

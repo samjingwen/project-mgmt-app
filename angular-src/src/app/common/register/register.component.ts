@@ -1,34 +1,47 @@
-import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/auth/auth.service';
+import { Component, OnInit } from "@angular/core";
+import { FormGroup, FormBuilder, Validators } from "@angular/forms";
+import { AuthService } from "src/app/auth/auth.service";
+import { MustMatch } from "src/app/validators/must-match.validator";
 
 @Component({
-  selector: 'app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.css']
+  selector: "app-register",
+  templateUrl: "./register.component.html",
+  styleUrls: ["./register.component.css"]
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
-  constructor(private fb: FormBuilder, private authService: AuthService) { }
+  submitted = false;
+
+  constructor(private fb: FormBuilder, private authService: AuthService) {}
 
   ngOnInit() {
-    this.registerForm = this.fb.group({
-      email: ["", [Validators.required, Validators.email]],
-      password: ["", Validators.required],
-      confirm: ["", Validators.required]
-    })
+    this.registerForm = this.fb.group(
+      {
+        email: ["", [Validators.required, Validators.email]],
+        password: ["", [Validators.required, Validators.minLength(6)]],
+        confirm: ["", [Validators.required]]
+      },
+      { validator: MustMatch("password", "confirm") }
+    );
   }
 
-  processForm(){
-    if (this.registerForm.valid){
+  // convenience getter for easy access to form fields
+  get f() {
+    return this.registerForm.controls;
+  }
+
+  processForm() {
+    this.submitted = true;
+
+    if (this.registerForm.valid) {
       const values = this.registerForm.value;
       console.log(values);
       const user = {
         email: values.email,
-        password: values.password
-      }
+        password: values.password,
+        confirm: values.confirm
+      };
       this.authService.register(user).subscribe();
     }
   }
-
 }

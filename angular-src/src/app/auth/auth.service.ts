@@ -1,35 +1,37 @@
-import { Injectable } from "@angular/core";
+import { Injectable, Output } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { HttpParams, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { tap } from "rxjs/operators";
-import { environment } from '../../environments/environment';
+import { environment } from "../../environments/environment";
+import { Subject } from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
   apiUrl = environment.apiUrl;
+  isLoggedIn$ = new Subject<string>();
 
   constructor(private http: HttpClient, private router: Router) {}
 
   signInUser(email: string, password: string) {
-    const params = new HttpParams()
-      .set("email", email)
-      .set("password", password);
-    const headers = new HttpHeaders().set(
-      "Content-Type",
-      "application/x-www-form-urlencoded"
-    );
-    return this.http
-      .post("/api/user/authenticate", params.toString(), {
-        headers
+    const options = {
+      params: new HttpParams().set("email", email).set("password", password),
+      headers: new HttpHeaders().set(
+        "Content-Type",
+        "application/x-www-form-urlencoded"
+      )
+    };
+
+    return this.http.post(`${this.apiUrl}/user/authenticate`, {}, options).pipe(
+      tap(result => {
+        this.setSession(result);
+      }),
+      tap(() => {
+        this.isLoggedIn$.next(this.loggedInUser);
       })
-      .pipe(
-        tap(result => {
-          this.setSession(result);
-        })
-      );
+    );
   }
 
   signOut() {
@@ -38,13 +40,17 @@ export class AuthService {
   }
 
   register(user) {
-    const params = new HttpParams()
-      .set("email", user.email)
-      .set("password", user.password);
     const options = {
-      headers: new HttpHeaders().set("Content-Type", "application/x-www-form-urlencoded")
+      headers: new HttpHeaders().set(
+        "Content-Type",
+        "application/x-www-form-urlencoded"
+      ),
+      params: new HttpParams()
+        .set("email", user.email)
+        .set("password", user.password)
+        .set("confirm", user.confirm)
     };
-    return this.http.post(`${this.apiUrl}/user/register`, params.toString(), options);
+    return this.http.post(`${this.apiUrl}/user/register`, {}, options);
   }
 
   private setSession(authResult) {
@@ -53,12 +59,12 @@ export class AuthService {
 
   isLoggedIn() {
     console.log(new Date().getTime() / 1000);
-    console.log(this.getExpiration());
-    return new Date().getTime() / 1000 < this.getExpiration();
+    console.log(this.expiresAt);
+    return new Date().getTime() / 1000 < this.expiresAt;
     // return true;
   }
 
-  getExpiration() {
+  get expiresAt() {
     const token = localStorage.getItem("bearer_jwt_token");
     if (token) {
       return JSON.parse(token)["expires_at"];
@@ -66,10 +72,27 @@ export class AuthService {
     return 0;
   }
 
-  getAuthorizationToken() {
+  get currentUserId() {
+    const token = localStorage.getItem("bearer_jwt_token");
+    if (token) {
+      return JSON.parse(token)["user_id"];
+    }
+    return false;
+  }
+
+  get loggedInUser() {
+    const token = localStorage.getItem("bearer_jwt_token");
+    if (token) {
+      return JSON.parse(token)["display_name"];
+    }
+    return false;
+  }
+
+  get authorizationToken() {
     const token = localStorage.getItem("bearer_jwt_token");
     if (token) {
       return JSON.parse(token)["access_token"];
     }
+    return false;
   }
 }

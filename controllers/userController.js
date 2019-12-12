@@ -24,8 +24,8 @@ module.exports = { signInUser, getUserById };
 
 function signInUser(req, res, next) {
   const user = {
-    email: req.body.email,
-    password: req.body.password,
+    email: req.query.email,
+    password: req.query.password,
   };
   console.log(user);
   _authenticateUser(user)
@@ -34,6 +34,8 @@ function signInUser(req, res, next) {
         token_type: 'Bearer',
         access_token: result.token,
         expires_at: result.expires_at,
+        user_id: result.user_id,
+        display_name: result.display_name,
       });
     })
     .catch(error => {
@@ -48,29 +50,34 @@ function _authenticateUser(user) {
       console.log(result);
       if (result.length > 0) {
         const now = new Date().getTime();
-        const user = result[0];
+        const currentUser = result[0];
         const token = jwt.sign(
           {
-            sub: user.user_id,
+            sub: currentUser.user_id,
             iss: 'productivv',
             iat: Math.floor(now / 1000),
 
             // exp: Math.floor(now / 1000) + (60 * 15),
-            exp: Math.floor(now / 1000) + 10,
-            data: { ...user },
+            exp: Math.floor(now / 1000) + 60,
+            data: { ...currentUser },
           },
           process.env.JWT_SECRET
         );
-        resolve({ token, expires_at: Math.floor(now / 1000) + 10 });
+        resolve({
+          token,
+          expires_at: Math.floor(now / 1000) + 60,
+          user_id: currentUser.user_id,
+          display_name: currentUser.display_name,
+        });
       }
       reject();
     });
   });
 }
 
-function getUserById(user_id) {
+function getUserById(userId) {
   return new Promise((resolve, reject) => {
-    selectUserById([user_id]).then(result => {
+    selectUserById([userId]).then(result => {
       if (result.length > 0) {
         resolve(result[0]);
       }

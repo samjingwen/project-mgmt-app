@@ -5,27 +5,29 @@ const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 const { getUserById } = require('../controllers/userController');
 
-// module.exports = (passport) => {
-//   passport.use(new JwtStrategy(
-//     {
-//       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-//       secretOrKey: process.env.JWT_SECRET,
-//       issuer: 'productivv',
+module.exports = { signInByJwt, signInByGoogle };
 
-//     },
-//     function (jwt_payload, done) {
-//       getUserById(jwt_payload.sub)
-//         .then(user => {
-//           if (user) {
-//             return done(null, user);
-//           }
-//           return done(null, false);
-//         })
-//     }
-//   ))
-// }
+function signInByJwt(passport) {
+  passport.use(
+    new JwtStrategy(
+      {
+        jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+        secretOrKey: process.env.JWT_SECRET,
+        issuer: 'productivv',
+      },
+      function(jwt_payload, done) {
+        getUserById(jwt_payload.sub).then(user => {
+          if (user) {
+            return done(null, user);
+          }
+          return done(null, false);
+        });
+      }
+    )
+  );
+}
 
-module.exports = passport => {
+function signInByGoogle(passport) {
   passport.serializeUser((user, done) => {
     done(null, user);
   });
@@ -39,11 +41,12 @@ module.exports = passport => {
         clientSecret: process.env.GOOGLE_CLIENT_SECRET,
         callbackURL: 'http://localhost:3000/auth/google/callback',
       },
-      (token, refreshToken, profile, done) =>
+      (token, refreshToken, profile, done) => {
         done(null, {
           profile,
           token,
-        })
+        });
+      }
     )
   );
-};
+}

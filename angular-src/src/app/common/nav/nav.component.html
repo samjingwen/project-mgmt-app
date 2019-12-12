@@ -1,4 +1,4 @@
-<header>
+<!-- <header>
   <a class="logo" [routerLink]="['/']">Productivv</a>
   <a *ngIf="mobileQuery.matches" class="nav-toggle" [ngClass]="{ active: navOpen }" (click)="toggleNav()"></a>
   <nav class="nav-collapse" *ngIf="navOpen">
@@ -10,4 +10,22 @@
       <li class="menu-item" (click)="toggleNav()"><a href="http://www.google.com" target="_blank">Google</a></li>
     </ul>
   </nav>
+</header> -->
+<header>
+  <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+      <span class="title-text" [routerLink]="['/']">Productivv</span>
+    </div>
+    <ng-container *ngIf="isLoggedIn; else loggedOut">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+        Welcome, {{ currentUser }}
+      </div>
+    </ng-container>
+    <ng-template #loggedOut>
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+        <button mat-button [routerLink]="['/login']">Log In</button>
+        <button mat-button [routerLink]="['/register']">Register</button>
+      </div>
+    </ng-template>
+  </mat-toolbar>
 </header>

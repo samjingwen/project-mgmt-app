@@ -37,10 +37,10 @@ create table user_roles(
 );
 
 insert into users(user_id, email, display_name, password) values
-('6219d553-ef46-4d21-b932-38a1c05963dc', 'fred@gmail.com', 'fred', sha2('fred', 256)), 
-('7e4daecb-3699-4691-848f-fa91f77bcb3f', 'barney@gmail.com', 'barney', sha2('fred', 256)),
-('e21a618a-5a08-4538-a9ba-e06ba03aa121', 'wilma@gmail.com', 'wilma', sha2('wilma', 256)),
-('61fa7678-24c9-42d6-8581-b78988cdba77', 'betty@gmail.com', 'betty', sha2('betty', 256));
+('6219d553-ef46-4d21-b932-38a1c05963dc', 'fred@gmail.com', 'fred', sha2('fredfred', 256)), 
+('7e4daecb-3699-4691-848f-fa91f77bcb3f', 'barney@gmail.com', 'barney', sha2('barneybarney', 256)),
+('e21a618a-5a08-4538-a9ba-e06ba03aa121', 'wilma@gmail.com', 'wilma', sha2('wilmawilma', 256)),
+('61fa7678-24c9-42d6-8581-b78988cdba77', 'betty@gmail.com', 'betty', sha2('bettybetty', 256));
     
 insert into roles(role_id, role_name) values
 ('86030123-bd68-47dc-a92a-039e0e5b659c', 'admin'),

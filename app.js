@@ -7,7 +7,7 @@ const passport = require('passport');
 
 const usersRouter = require('./routes/users');
 const boardsRouter = require('./routes/boards');
-const authRouter = require('./routes/auth');
+const authRouter = require('./routes/auth-google');
 
 const app = express();
 

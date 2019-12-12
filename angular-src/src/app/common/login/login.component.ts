@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.loginForm = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
-      password: ["", [Validators.required, Validators.minLength(3)]]
+      password: ["", [Validators.required, Validators.minLength(6)]]
     });
     this.route.queryParams.subscribe(
       params => (this.returnUrl = params["returnUrl"] || "")
@@ -35,7 +35,11 @@ export class LoginComponent implements OnInit {
       const password = this.loginForm.value.password;
       console.log(email, password);
       this.authService.signInUser(email, password).subscribe(() => {
-        this.router.navigateByUrl(this.returnUrl);
+        if (this.returnUrl) {
+          this.router.navigateByUrl(this.returnUrl);
+        } else {
+          this.router.navigate(["/boards", this.authService.currentUserId] );
+        }
       });
     }
   }
