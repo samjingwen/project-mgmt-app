@@ -1,10 +1,14 @@
-<nav mat-tab-nav-bar backgroundColor="primary">
+<!-- <nav mat-tab-nav-bar backgroundColor="primary">
   <a mat-tab-link *ngFor="let item of items; let i = index" (click)="activeLink = item.label"
     [active]="activeLink == item.label" [routerLink]="item.routerLink">
     <fa-icon class="tab-icon" [icon]="item.icon"></fa-icon>
     {{item.label}}
   </a>
-</nav>
+</nav> -->
+
+
+
+
 <mat-form-field>
   <mat-select class="board-control" [formControl]="boardControl" (selectionChange)="changeBoard()">
     <mat-option *ngFor="let table of tables; let index = index" [value]="tables[index]._id">
@@ -12,4 +16,4 @@
     </mat-option>
   </mat-select>
 </mat-form-field>
-<router-outlet></router-outlet>
+<router-outlet color="primary"></router-outlet>

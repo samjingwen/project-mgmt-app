@@ -13,7 +13,8 @@ const routes: Routes = [
   { path: "register", component: RegisterComponent },
   {
     path: "boards",
-    // canActivate: [AuthGuard],
+    canActivate: [AuthGuard],
+    canLoad: [AuthGuard],
     loadChildren: () =>
       import("./boards/boards.module").then(m => m.BoardsModule),
     resolve: { boards: BoardsResolver }

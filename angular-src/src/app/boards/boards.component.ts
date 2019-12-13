@@ -10,11 +10,11 @@ import { Subject, BehaviorSubject } from 'rxjs';
   styleUrls: ["./boards.component.css"]
 })
 export class BoardsComponent implements OnInit {
-  items = [
-    { label: "Main Table", routerLink: "./table", icon: ["fas", "table"] },
-    { label: "Kanban", routerLink: "./kanban", icon: ["fab", "trello"] }
-  ];
-  activeLink = this.items[0].label;
+  // items = [
+  //   { label: "Main Table", routerLink: "./table", icon: ["fas", "table"] },
+  //   { label: "Kanban", routerLink: "./kanban", icon: ["fab", "trello"] }
+  // ];
+  // activeLink = this.items[0].label;
 
   tables: any;
   kanbans: any;

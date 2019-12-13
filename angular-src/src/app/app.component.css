@@ -1,3 +1,35 @@
 .main-wrapper{
   padding: 70px 0 0;
 }
+
+header {
+  position: fixed;
+  z-index: 3;
+  width: 100%;
+}
+
+.menu-icon:hover,
+.title-text:hover {
+  cursor: pointer;
+}
+
+.example-sidenav-content {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.example-sidenav {
+  position: fixed;
+  padding: 20px;
+}
+
+.tab-icon{
+  margin-right: 8px;
+}
+
+.mat-drawer-container{
+  color: inherit;
+  background-color: inherit;
+}

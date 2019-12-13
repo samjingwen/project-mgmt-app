@@ -16,7 +16,7 @@ body {
   height: 100%;
 }
 
-body {
+body{
   font-family: "Poppins", sans-serif;
   font-size: 1rem;
   font-weight: 400;
@@ -26,9 +26,5 @@ body {
       115deg,
       rgba(58, 58, 158, 0.8),
       rgba(136, 136, 206, 0.7)
-    ),
-    url(https://www.snacknation.com/wp-content/uploads/2018/08/rawpixel-633847-unsplash.jpg);
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
+    );
 }

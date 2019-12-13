@@ -1,4 +1,34 @@
-<app-nav></app-nav>
-<div class="main-wrapper">
-  <router-outlet></router-outlet>
-</div>
+<mat-drawer-container autosize>
+  <mat-drawer #drawer class="example-sidenav" mode="side">
+    <mat-nav-list>
+      <a mat-list-item [routerLink]="item.routerLink" *ngFor="let item of items; let i = index"
+        (click)="activeLink = item.label">
+        <fa-icon class="tab-icon" [icon]="item.icon"></fa-icon>
+        {{item.label}}
+      </a>
+    </mat-nav-list>
+  </mat-drawer>
+  <header>
+    <mat-toolbar color="primary" fxLayout="row" fxLayoutAlign="space-between center">
+      <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+        <mat-icon *ngIf="isLoggedIn" class="menu-icon" (click)="drawer.toggle()">menu</mat-icon>
+        <span class="title-text" [routerLink]="['/']">Productivv</span>
+      </div>
+      <ng-container *ngIf="isLoggedIn; else loggedOut">
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+          Welcome, {{ currentUser }}
+          <button mat-button (click)="signOut()">Log Out</button>
+        </div>
+      </ng-container>
+      <ng-template #loggedOut>
+        <div fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="5px">
+          <button mat-button [routerLink]="['/login']">Log In</button>
+          <button mat-button [routerLink]="['/register']">Register</button>
+        </div>
+      </ng-template>
+    </mat-toolbar>
+  </header>
+  <div class="main-wrapper">
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>
