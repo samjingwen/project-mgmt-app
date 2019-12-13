@@ -9,6 +9,8 @@ import { ActivatedRoute } from "@angular/router";
 })
 export class TableComponent implements OnInit {
   // boardId = "5deb90dc97265b80c79bbd31";
+  tables: any;
+  boardId: string;
   table: any;
 
   constructor(
@@ -17,10 +19,15 @@ export class TableComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Load data before loading component
+    // Fetch data from resolver
     this.activatedRoute.data.subscribe(data => {
-      console.log(data);
-      this.table = data.board.table;
+      this.tables = data.boards.tables;
+    });
+
+
+    this.boardsService.selectedBoard$.subscribe(boardId => {
+      this.boardId = boardId;
+      this.table = this.tables.find(x => x._id === this.boardId);
     });
 
     // this.board = this.boardsService.onUpdate().subscribe(board => {

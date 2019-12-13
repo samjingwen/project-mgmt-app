@@ -15,13 +15,15 @@
 <ng-container *ngIf="kanban !== {}">
   <div cdkDropListGroup>
     <div class="example-container" *ngFor="let item of kanban | keyvalue; let index=index">
-      <h2>{{ item.key }}</h2>
-      <div cdkDropList [cdkDropListData]="item.value" class="example-list" (cdkDropListDropped)="drop($event)">
-        <div class="example-box" *ngFor="let task of item.value" cdkDrag (click)="openDialog(task)">
-          <p>{{ task.task.task_name }}</p>
-          <p>{{ task.group_name}}</p>
+      <ng-container *ngIf="item.key !== '_id'">
+        <h2>{{ item.key }}</h2>
+        <div cdkDropList [cdkDropListData]="item.value" class="example-list" (cdkDropListDropped)="drop($event)">
+          <div class="example-box" *ngFor="let task of item.value" cdkDrag (click)="openDialog(task)">
+            <p>{{ task.task.task_name }}</p>
+            <p>{{ task.group_name}}</p>
+          </div>
         </div>
-      </div>
+      </ng-container>
     </div>
   </div>
 </ng-container>

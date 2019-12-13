@@ -2,9 +2,9 @@ import { Injectable } from "@angular/core";
 import { HttpClient } from "@angular/common/http";
 import { environment } from "../../environments/environment";
 import * as socketIo from "socket.io-client";
-import { fromEvent, Observable } from "rxjs";
+import { fromEvent, Observable, BehaviorSubject } from "rxjs";
 import { AuthService } from "../auth/auth.service";
-import { tap, map } from 'rxjs/operators';
+import { tap, map } from "rxjs/operators";
 
 @Injectable({
   providedIn: "root"
@@ -14,6 +14,8 @@ export class BoardsService {
   WS_SERVER_URL = environment.socketServerUrl;
 
   private socket;
+
+  selectedBoard$ = new BehaviorSubject("");
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
@@ -31,7 +33,6 @@ export class BoardsService {
       .get(`${this.apiUrl}/boards/user/${this.authService.currentUserId}`)
       .pipe(
         map(data => {
-          console.log(data);
           return data as Array<any>;
         })
       );

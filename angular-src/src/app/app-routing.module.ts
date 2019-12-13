@@ -12,7 +12,7 @@ const routes: Routes = [
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
   {
-    path: "boards/:userId",
+    path: "boards",
     // canActivate: [AuthGuard],
     loadChildren: () =>
       import("./boards/boards.module").then(m => m.BoardsModule),

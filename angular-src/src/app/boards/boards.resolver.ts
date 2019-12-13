@@ -14,6 +14,7 @@ export class BoardsResolver implements Resolve<any> {
 
   ngOnInit(): void {}
 
+  // Fetch and transform data
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
@@ -21,10 +22,10 @@ export class BoardsResolver implements Resolve<any> {
     console.log("pre-fetching data");
     // const boardId = route.params.boardId;
     return this.boardsService.getBoardsOfCurrentUser().pipe(
-      map(boards => boards as Array<any>),
       map(boards => {
-        boards.map(board => {
+        const kanbans = boards.map(board => {
           const kanban = {};
+          kanban['_id'] = board._id;
           board["statuses"].forEach(status => {
             kanban[status] = [];
           });
@@ -34,36 +35,27 @@ export class BoardsResolver implements Resolve<any> {
               if (!task.task_name) {
                 return;
               }
+              const item = {
+                task: task,
+                group_name: group.group_name,
+                priorities: board["priorities"],
+                owners: board["owners"],
+                displayed_columns: board["displayed_columns"],
+                lookup_columns: board["lookup_columns"],
+                column_types: board["column_types"],
+                statuses: board["statuses"]
+              };
               if (task.status !== "") {
-                kanban[task.status].push({
-                  task: task,
-                  group_name: group.group_name,
-                  priorities: board["priorities"],
-                  owners: board["owners"],
-                  displayed_columns: board["displayed_columns"],
-                  lookup_columns: board["lookup_columns"],
-                  column_types: board["column_types"],
-                  statuses: board["statuses"]
-                });
+                kanban[task.status].push(item);
               } else {
-                kanban["Unassigned"].push({
-                  task: task,
-                  group_name: group.group_name,
-                  priorities: board["priorities"],
-                  owners: board["owners"],
-                  displayed_columns: board["displayed_columns"],
-                  lookup_columns: board["lookup_columns"],
-                  column_types: board["column_types"],
-                  statuses: board["statuses"]
-                });
+                kanban["Unassigned"].push(item);
               }
             });
           });
-          return { table: board, kanban: kanban };
+          return kanban;
         });
-      }),
-      tap(data => {
-        console.log(data);
+        console.log({ tables : boards, kanbans: kanbans});
+        return { tables : boards, kanbans: kanbans};
       })
     );
   }

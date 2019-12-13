@@ -5,4 +5,11 @@
     {{item.label}}
   </a>
 </nav>
+<mat-form-field>
+  <mat-select class="board-control" [formControl]="boardControl" (selectionChange)="changeBoard()">
+    <mat-option *ngFor="let table of tables; let index = index" [value]="tables[index]._id">
+      {{table.board_name}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>
 <router-outlet></router-outlet>

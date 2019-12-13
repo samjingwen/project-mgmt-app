@@ -58,14 +58,14 @@ function _authenticateUser(user) {
             iat: Math.floor(now / 1000),
 
             // exp: Math.floor(now / 1000) + (60 * 15),
-            exp: Math.floor(now / 1000) + 60 * 15,
+            exp: Math.floor(now / 1000) + 60 * 30,
             data: { ...currentUser },
           },
           process.env.JWT_SECRET
         );
         resolve({
           token,
-          expires_at: Math.floor(now / 1000) + 60 * 15,
+          expires_at: Math.floor(now / 1000) + 60 * 30,
           user_id: currentUser.user_id,
           display_name: currentUser.display_name,
         });

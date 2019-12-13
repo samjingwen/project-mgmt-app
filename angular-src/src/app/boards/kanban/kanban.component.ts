@@ -19,8 +19,10 @@ export class KanbanComponent implements OnInit {
 
   done = ["Get up", "Brush teeth", "Take a shower", "Check e-mail", "Walk dog"];
 
-  boardId = "5deb90dc97265b80c79bbd31";
+  // boardId = "5deb90dc97265b80c79bbd31";
   // board: any;
+  kanbans: any;
+  boardId: string;
   kanban: any;
 
   constructor(
@@ -30,10 +32,18 @@ export class KanbanComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Load data before loading component
+    // Fetch data from resolver
     this.activatedRoute.data.subscribe(data => {
-      this.kanban = data.board.kanban;
+      console.log("kanbans:", data.boards.kanbans);
+      this.kanbans = data.boards.kanbans;
     });
+
+    this.boardsService.selectedBoard$.subscribe(boardId => {
+      this.boardId = boardId;
+      this.kanban = this.kanbans.find(x => x._id === this.boardId);
+      console.log(this.kanban);
+    });
+
 
     // this.boardsService.getBoardById(this.boardId).subscribe(result => {
     //   this.board = result;
