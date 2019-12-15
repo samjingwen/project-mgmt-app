@@ -20,6 +20,9 @@ export class LoginComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(["/boards"]);
+    }
     this.loginForm = this.fb.group({
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required, Validators.minLength(6)]]
@@ -38,7 +41,7 @@ export class LoginComponent implements OnInit {
         if (this.returnUrl) {
           this.router.navigateByUrl(this.returnUrl);
         } else {
-          this.router.navigate(["/boards", this.authService.currentUserId] );
+          this.router.navigate(["/boards"]);
         }
       });
     }

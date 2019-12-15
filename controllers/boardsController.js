@@ -10,7 +10,10 @@ module.exports = {
   updateGroup,
   _getBoardById,
   getBoardsByUserId,
+  createBoard,
 };
+
+const template = '5df34cc45afc0d1ab830081e';
 
 function getBoardsById(req, res, next) {
   const { boardId } = req.params;
@@ -40,7 +43,7 @@ function getBoardsById(req, res, next) {
 
 function getBoardsByUserId(req, res, next) {
   const { userId } = req.params;
-  console.log(userId);
+  console.log('user:', userId);
   if (
     userId.match(
       /^[0-9a-f]{8}-[0-9a-f]{4}-[0-5][0-9a-f]{3}-[089ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -61,7 +64,6 @@ function getBoardsByUserId(req, res, next) {
             return res.json({ message: 'Something went wrong' });
           }
           if (result) {
-            console.log(result);
             return res.json(result);
           }
           return res.json({ message: 'No record found' });
@@ -140,4 +142,32 @@ function updateGroup(group) {
         { upsert: false }
       );
   });
+}
+
+function createBoard(req, res, next) {
+  const { userId } = req.body;
+  const { displayName } = req.body;
+  client.connect(error => {
+    if (error) {
+      res.status(500).json({ message: 'connection failed' });
+    }
+    client
+      .db(process.env.MONGO_DB)
+      .collection('boards')
+      .findOne({ _id: ObjectId(template) })
+      .then(result => {
+        console.log(result);
+        result._id = new ObjectId();
+        result.owners.push({ user_id: userId, display_name: displayName });
+        client
+          .db(process.env.MONGO_DB)
+          .collection('boards')
+          .insertOne(result)
+          .then(data => {
+            console.log(data);
+          });
+      });
+  });
+  console.log(userId);
+  res.json({});
 }

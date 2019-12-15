@@ -1,13 +1,12 @@
 require('dotenv').config();
+const jwt = require('jsonwebtoken');
 const JwtStrategy = require('passport-jwt').Strategy;
 const { ExtractJwt } = require('passport-jwt');
 const GoogleStrategy = require('passport-google-oauth').OAuth2Strategy;
 
 const { getUserById } = require('../controllers/userController');
 
-module.exports = { signInByJwt, signInByGoogle };
-
-function signInByJwt(passport) {
+const signInByJwt = passport => {
   passport.use(
     new JwtStrategy(
       {
@@ -25,9 +24,9 @@ function signInByJwt(passport) {
       }
     )
   );
-}
+};
 
-function signInByGoogle(passport) {
+const signInByGoogle = passport => {
   passport.serializeUser((user, done) => {
     done(null, user);
   });
@@ -49,4 +48,36 @@ function signInByGoogle(passport) {
       }
     )
   );
-}
+};
+
+const validateToken = (req, res, next) => {
+  console.log(req.headers.authorization);
+  const authorizationToken = req.headers.authorization;
+  let result;
+  if (authorizationToken) {
+    const token = req.headers.authorization.split(' ')[1];
+    console.log(token);
+    const options = {
+      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
+      secretOrKey: process.env.JWT_SECRET,
+      issuer: 'productivv',
+    };
+    try {
+      result = jwt.verify(token, process.env.JWT_SECRET, options);
+
+      req.decoded = result;
+      console.log(req.decoded);
+      next();
+    } catch (err) {
+      res.status(401).json({ error: err });
+    }
+  } else {
+    result = {
+      error: `Authentication error. Token required or not valid.`,
+      status: 401,
+    };
+    res.status(401).send(result);
+  }
+};
+
+module.exports = { signInByJwt, signInByGoogle, validateToken };

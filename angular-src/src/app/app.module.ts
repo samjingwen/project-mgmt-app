@@ -5,7 +5,6 @@ import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
 import { LoginComponent } from "./common/login/login.component";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
-import { HomeComponent } from "./common/home/home.component";
 import { MaterialModule } from "./material.module";
 import { ReactiveFormsModule } from "@angular/forms";
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -20,9 +19,10 @@ import { far } from "@fortawesome/free-regular-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { BoardsResolver } from './boards/boards.resolver';
 import { RegisterComponent } from './common/register/register.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent, HomeComponent, RegisterComponent],
+  declarations: [AppComponent, LoginComponent, RegisterComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -34,6 +34,7 @@ import { RegisterComponent } from './common/register/register.component';
     FontAwesomeModule
   ],
   providers: [
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true },
     AuthGuard,
     BoardsResolver

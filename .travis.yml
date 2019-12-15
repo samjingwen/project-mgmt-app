@@ -1,0 +1,24 @@
+language: node_js
+node_js:
+  - node
+dist: bionic
+sudo: required
+branches:
+  only:
+    - master
+before_script:
+  - npm install -g @angular/cli
+script:
+  - bash build_angular.sh
+deploy:
+  provider: heroku
+  skip_cleanup: true
+  api_key:
+    secure: "$HEROKU_TOKEN"
+  app: project-mgmt-app
+  on:
+    repo: jwjwjw123/project-mgmt-app
+    branch: master
+notifications:
+  email:
+    - jingwen92@hotmail.com

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 import { environment } from "src/environments/environment";
 import * as socketIo from "socket.io-client";
 import { fromEvent, Observable, BehaviorSubject } from "rxjs";
@@ -36,6 +36,13 @@ export class BoardsService {
           return data as Array<any>;
         })
       );
+  }
+
+  createNewBoard() {
+    const params = new HttpParams()
+      .set("userId", this.authService.currentUserId)
+      .set("displayName", this.authService.loggedInUser);
+    return this.http.post(`${this.apiUrl}/boards/create/`, params);
   }
 
   updateGroup(group) {

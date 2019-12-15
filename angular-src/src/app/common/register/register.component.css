@@ -148,6 +148,7 @@ button ~ button {
   transition-duration: 150ms;
   transition-timing-function: ease-in-out;
   padding: 0;
+  margin-top: 15px;
 
   &:focus,
   &:hover {

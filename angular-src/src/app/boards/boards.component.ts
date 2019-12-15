@@ -21,6 +21,7 @@ export class BoardsComponent implements OnInit {
 
   boardControl: FormControl;
   currentBoardId: string;
+  currentBoardName: string;
 
   constructor(
     private router: Router,
@@ -43,6 +44,14 @@ export class BoardsComponent implements OnInit {
 
     this.boardsService.selectedBoard$.subscribe(boardId => {
       this.currentBoardId = boardId;
+      this.currentBoardName = this.tables.find(x => x._id === boardId).board_name;
+    })
+  }
+
+  addNewBoard(){
+    console.log('asds');
+    this.boardsService.createNewBoard().subscribe(() => {
+      console.log("asdasd");
     })
   }
 

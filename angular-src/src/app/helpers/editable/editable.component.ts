@@ -6,18 +6,10 @@ import {
   EventEmitter,
   OnInit,
   ElementRef,
-  OnDestroy,
-  HostListener
+  OnDestroy
 } from "@angular/core";
 import { fromEvent, Subject, merge } from "rxjs";
-import {
-  filter,
-  take,
-  switchMapTo,
-  takeUntil,
-  map,
-  throttleTime
-} from "rxjs/operators";
+import { takeUntil, map, throttleTime } from "rxjs/operators";
 
 @Component({
   selector: "app-editable",
@@ -45,7 +37,7 @@ export class EditableComponent implements OnInit, OnDestroy {
     return this.el.nativeElement;
   }
 
-  // When clicked outside of editable component, 
+  // When clicked outside of editable component,
   // undo changes and exit edit mode
   editModeHandler() {
     merge(

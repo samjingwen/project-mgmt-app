@@ -15,12 +15,6 @@ import { ActivatedRoute } from "@angular/router";
   styleUrls: ["./kanban.component.css"]
 })
 export class KanbanComponent implements OnInit {
-  todo = ["Get to work", "Pick up groceries", "Go home", "Fall asleep"];
-
-  done = ["Get up", "Brush teeth", "Take a shower", "Check e-mail", "Walk dog"];
-
-  // boardId = "5deb90dc97265b80c79bbd31";
-  // board: any;
   kanbans: any;
   boardId: string;
   kanban: any;
@@ -43,7 +37,6 @@ export class KanbanComponent implements OnInit {
       this.kanban = this.kanbans.find(x => x._id === this.boardId);
       console.log(this.kanban);
     });
-
 
     // this.boardsService.getBoardById(this.boardId).subscribe(result => {
     //   this.board = result;
