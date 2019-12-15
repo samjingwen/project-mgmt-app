@@ -15,7 +15,7 @@ deploy:
   skip_cleanup: true
   api_key:
     secure: "$HEROKU_TOKEN"
-  app: project-mgmt-app
+  app: productivvapp
   on:
     repo: jwjwjw123/project-mgmt-app
     branch: master
