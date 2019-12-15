@@ -10,17 +10,22 @@ import { tap, map } from "rxjs/operators";
   providedIn: "root"
 })
 export class BoardsService {
-  WS_SERVER_URL =  'ws://productivvapp.herokuapp.com:3000';
+  // WS_SERVER_URL =  'ws://productivvapp.herokuapp.com:3000';
+  WS_SERVER_URL = environment.socketServerUrl;
 
   private socket;
 
   selectedBoard$ = new BehaviorSubject("");
+  selectedBoard: string;
 
   constructor(private http: HttpClient, private authService: AuthService) {}
 
   initSocket() {
     console.log(">>>>> " + this.WS_SERVER_URL);
     this.socket = socketIo(this.WS_SERVER_URL);
+    this.selectedBoard$.subscribe(boardId => {
+      this.selectedBoard = boardId;
+    });
   }
 
   getBoardById(boardId: string) {
@@ -33,6 +38,41 @@ export class BoardsService {
       .pipe(
         map(data => {
           return data as Array<any>;
+        }),
+        map(boards => {
+          const kanbans = boards.map(board => {
+            const kanban = {};
+            kanban["_id"] = board._id;
+            board["statuses"].forEach(status => {
+              kanban[status] = [];
+            });
+            kanban["Unassigned"] = [];
+            board["groups"].forEach(group => {
+              group.tasks.forEach(task => {
+                if (!task.task_name) {
+                  return;
+                }
+                const item = {
+                  task: task,
+                  group_name: group.group_name,
+                  priorities: board["priorities"],
+                  owners: board["owners"],
+                  displayed_columns: board["displayed_columns"],
+                  lookup_columns: board["lookup_columns"],
+                  column_types: board["column_types"],
+                  statuses: board["statuses"]
+                };
+                if (task.status !== "") {
+                  kanban[task.status].push(item);
+                } else {
+                  kanban["Unassigned"].push(item);
+                }
+              });
+            });
+            return kanban;
+          });
+          console.log({ tables: boards, kanbans: kanbans });
+          return { tables: boards, kanbans: kanbans };
         })
       );
   }
@@ -45,17 +85,63 @@ export class BoardsService {
   }
 
   updateGroup(group) {
-    return this.http.post(`/api/boards/update`, group);
+    // return this.http.post(`/api/boards/update`, group);
 
-    // this.socket.emit("updateBoard", group);
+    this.socket.emit("updateBoard", { group, userId: this.authService.currentUserId});
   }
 
   onUpdate(): Observable<any> {
-    console.log("patching new values to all sessions");
-    return fromEvent(this.socket, "onUpdate");
+    return fromEvent(this.socket, "onUpdate").pipe(
+      map(data => {
+        return data as Array<any>;
+      }),
+      map(boards => {
+        const kanbans = boards.map(board => {
+          const kanban = {};
+          kanban["_id"] = board._id;
+          board["statuses"].forEach(status => {
+            kanban[status] = [];
+          });
+          kanban["Unassigned"] = [];
+          board["groups"].forEach(group => {
+            group.tasks.forEach(task => {
+              if (!task.task_name) {
+                return;
+              }
+              const item = {
+                task: task,
+                group_name: group.group_name,
+                priorities: board["priorities"],
+                owners: board["owners"],
+                displayed_columns: board["displayed_columns"],
+                lookup_columns: board["lookup_columns"],
+                column_types: board["column_types"],
+                statuses: board["statuses"]
+              };
+              if (task.status !== "") {
+                kanban[task.status].push(item);
+              } else {
+                kanban["Unassigned"].push(item);
+              }
+            });
+          });
+          return kanban;
+        });
+        console.log({ tables: boards, kanbans: kanbans });
+        return { tables: boards, kanbans: kanbans };
+      })
+    );
   }
 
-  addOwnertoBoard(){
-    return this.http.post(`/api/boards/owner`, {});
+  addOwnertoBoard(user) {
+    // const params = new HttpParams().set("user_id", userId);
+    return this.http.post(`/api/boards/owner`, {
+      user,
+      boardId: this.selectedBoard
+    });
+  }
+
+  getAllUsers() {
+    return this.http.get("/api/user/all");
   }
 }

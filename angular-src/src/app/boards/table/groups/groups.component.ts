@@ -40,7 +40,7 @@ export class GroupsComponent implements OnInit {
   updateField(index, fieldName) {
     const control = this.getControl(index, fieldName);
     this.group.tasks[index][fieldName] = control.value;
-    this.boardsService.updateGroup(this.group).subscribe();
+    this.boardsService.updateGroup(this.group);
   }
 
   // one form group per task

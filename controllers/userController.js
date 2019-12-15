@@ -20,7 +20,13 @@ const selectUserById = dbUtils.mkQueryFromPool(
   pool
 );
 
-module.exports = { signInUser, getUserById };
+const SELECT_ALL_USER = 'select user_id, email, display_name from users';
+const selectAllUser = dbUtils.mkQueryFromPool(
+  dbUtils.mkQuery(SELECT_ALL_USER, pool),
+  pool
+);
+
+module.exports = { signInUser, getUserById, getAllUsers };
 
 function signInUser(req, res, next) {
   const user = {
@@ -40,6 +46,16 @@ function signInUser(req, res, next) {
     })
     .catch(error => {
       res.status(401).json({ message: 'Something went wrong' });
+    });
+}
+
+function getAllUsers(req, res, next) {
+  selectAllUser()
+    .then(result => {
+      res.status(200).json(result);
+    })
+    .catch(error => {
+      res.status(401).json({ message: 'Internal server error' });
     });
 }
 

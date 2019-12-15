@@ -20,6 +20,7 @@ import { fab } from "@fortawesome/free-brands-svg-icons";
 import { BoardsResolver } from './boards/boards.resolver';
 import { RegisterComponent } from './common/register/register.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { SelectOwnerComponent } from './helpers/select-owner/select-owner.component';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent, RegisterComponent],

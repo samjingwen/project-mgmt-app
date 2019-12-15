@@ -30,6 +30,12 @@ export class TableComponent implements OnInit {
       this.table = this.tables.find(x => x._id === this.boardId);
     });
 
+    this.boardsService.onUpdate().subscribe(data => {
+      console.log('>>>>data', data);
+      this.tables = data.tables;
+      this.table = this.tables.find(x => x._id === this.boardId);
+    })
+
     // this.board = this.boardsService.onUpdate().subscribe(board => {
     //   console.log(board);
     //   this.board = board;

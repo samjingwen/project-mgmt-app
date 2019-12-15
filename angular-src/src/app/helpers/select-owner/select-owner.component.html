@@ -1,0 +1,18 @@
+<div class="edit-container" [formGroup]="selectForm">
+  <h2 mat-dialog-title>Select Owner</h2>
+  <mat-dialog-content class="dialog-content" fxLayout="column">
+    <form [formGroup]="selectForm">
+      <mat-form-field>
+        <mat-select class="form-control" formControlName="owner">
+          <mat-option *ngFor="let owner of owners; let index = index" [value]="owner">
+            {{owner.display_name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </form>
+    <mat-dialog-actions fxLayout="row" fxLayoutGap="5px" fxLayoutAlign="end">
+      <button id="update-btn" class="update-btn" color="success" mat-raised-button (click)="update()">Save</button>
+      <button id="close-btn" class="close-btn" mat-raised-button (click)="close()">Close</button>
+    </mat-dialog-actions>
+  </mat-dialog-content>
+</div>

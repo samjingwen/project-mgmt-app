@@ -5,8 +5,10 @@ const passport = require('passport');
 const { check, validationResult, query } = require('express-validator');
 const auth = require('../utils/passport.utils');
 
-const { signInUser } = require('../controllers/userController');
+const { signInUser, getAllUsers } = require('../controllers/userController');
 const pool = require('../config/mysql.config');
+
+router.get('/all', getAllUsers);
 
 router.post('/authenticate', signInUser);
 

@@ -77,6 +77,7 @@ function getBoardsByUserId(req, res, next) {
 
 function updateBoard(req, res, next) {
   const group = req.body;
+  console.log(group);
   group._id = ObjectId(group._id);
   group.tasks.forEach(task => {
     task._id = ObjectId(task._id);
@@ -159,6 +160,12 @@ function createBoard(req, res, next) {
       .then(result => {
         console.log(result);
         result._id = new ObjectId();
+        result.groups.forEach(group => {
+          group._id = new ObjectId();
+          group.tasks.forEach(task => {
+            task._id = new ObjectId();
+          });
+        });
         result.owners.push({ user_id: userId, display_name: displayName });
         client
           .db(process.env.MONGO_DB)
@@ -174,5 +181,22 @@ function createBoard(req, res, next) {
 }
 
 function updateOwners(req, res, next) {
+  const { user } = req.body;
+  const { boardId } = req.body;
+
+  client.connect(error => {
+    if (error) {
+      res.status(500).json({ message: 'connection failed' });
+    }
+    client
+      .db(process.env.MONGO_DB)
+      .collection('boards')
+      .updateOne({ _id: ObjectId(boardId) }, { $push: { owners: user } })
+      .then(result => {
+        console.log(result);
+      });
+  });
+  console.log(user);
+  console.log(boardId);
   res.json({});
 }

@@ -7,11 +7,12 @@ import { KanbanComponent } from "./kanban/kanban.component";
 import { FontAwesomeModule } from "@fortawesome/angular-fontawesome";
 import { EditableComponent } from "../helpers/editable/editable.component";
 import { TableComponent } from "./table/table.component";
-import { GroupsComponent } from './table/groups/groups.component';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FocusableDirective } from '../helpers/editable/focusable.directive';
-import { EditComponent } from './kanban/edit/edit.component';
-import { FlexLayoutModule } from '@angular/flex-layout';
+import { GroupsComponent } from "./table/groups/groups.component";
+import { ReactiveFormsModule } from "@angular/forms";
+import { FocusableDirective } from "../helpers/editable/focusable.directive";
+import { EditComponent } from "./kanban/edit/edit.component";
+import { FlexLayoutModule } from "@angular/flex-layout";
+import { SelectOwnerComponent } from "../helpers/select-owner/select-owner.component";
 
 @NgModule({
   declarations: [
@@ -23,6 +24,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     KanbanComponent,
     FocusableDirective,
     EditComponent,
+    SelectOwnerComponent
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,6 @@ import { FlexLayoutModule } from '@angular/flex-layout';
     FontAwesomeModule,
     FlexLayoutModule
   ],
-  entryComponents: [EditComponent]
+  entryComponents: [EditComponent, SelectOwnerComponent]
 })
 export class BoardsModule {}
