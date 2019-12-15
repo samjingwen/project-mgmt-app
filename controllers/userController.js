@@ -1,5 +1,7 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
+const { check, validationResult, query } = require('express-validator');
+const uuid = require('uuid');
 
 const dbUtils = require('../utils/database.utils');
 const pool = require('../config/mysql.config');
@@ -26,7 +28,14 @@ const selectAllUser = dbUtils.mkQueryFromPool(
   pool
 );
 
-module.exports = { signInUser, getUserById, getAllUsers };
+const INSERT_USER =
+  'insert into users (user_id, email, display_name, password) values(?, ?, ?, sha2(?, 256))';
+const insertUser = dbUtils.mkQueryFromPool(
+  dbUtils.mkQuery(INSERT_USER, pool),
+  pool
+);
+
+module.exports = { signInUser, getUserById, getAllUsers, createUser };
 
 function signInUser(req, res, next) {
   const user = {
@@ -100,4 +109,21 @@ function getUserById(userId) {
       reject();
     });
   });
+}
+
+function createUser(req, res, next) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+  console.log('params:', req.query);
+  const params = [uuid(), req.query.email, 'User123', req.query.password];
+  insertUser(params)
+    .then(result => {
+      res.status(201).json({ message: 'success' });
+    })
+    .catch(error => {
+      console.log(error);
+      res.status(401).json({ message: 'Something went wrong' });
+    });
 }

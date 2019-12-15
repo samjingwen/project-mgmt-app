@@ -10,8 +10,8 @@ import { tap, map } from "rxjs/operators";
   providedIn: "root"
 })
 export class BoardsService {
-  // WS_SERVER_URL =  'ws://productivvapp.herokuapp.com:3000';
-  WS_SERVER_URL = environment.socketServerUrl;
+  WS_SERVER_URL =  'ws://productivvapp.herokuapp.com:3000';
+  // WS_SERVER_URL = environment.socketServerUrl;
 
   private socket;
 

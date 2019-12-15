@@ -25,38 +25,25 @@ export class EditComponent implements OnInit {
     // })
   }
 
-  createControls(){
+  createControls() {
     const formGroup = new FormGroup({});
     this.data.lookup_columns.forEach(column => {
       console.log(column);
       console.log(this.data.task[column]);
-      formGroup.addControl(column, new FormControl(this.data.task[column]))
-    })
+      formGroup.addControl(column, new FormControl(this.data.task[column]));
+    });
     this.taskForm = formGroup;
   }
 
-
-  // const formGroups = this.group.tasks.map(task => {
-  //   const formGroup = new FormGroup({});
-  //   Object.keys(task).forEach(key => {
-  //     formGroup.addControl(key, new FormControl(task[key]));
-  //   });
-  //   return formGroup;
-  // });
-  // this.controls = new FormArray(formGroups);
-
-  getControl(lookupColumn){
+  getControl(lookupColumn) {
     return this.taskForm.get(lookupColumn);
   }
 
-  update(){
-    this.dialogRef.close({success: "hahaah"});
-
-
-
+  update() {
+    this.dialogRef.close({ success: "hahaah" });
   }
 
-  close(){
+  close() {
     this.dialogRef.close();
   }
 }
