@@ -3,14 +3,12 @@ import { HttpClient } from "@angular/common/http";
 import { HttpParams, HttpHeaders } from "@angular/common/http";
 import { Router } from "@angular/router";
 import { tap } from "rxjs/operators";
-import { environment } from "src/environments/environment";
 import { Subject, BehaviorSubject } from "rxjs";
 
 @Injectable({
   providedIn: "root"
 })
 export class AuthService {
-  apiUrl = environment.apiUrl;
   isLoggedIn$ = new BehaviorSubject<boolean>(this.isLoggedIn());
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -24,7 +22,7 @@ export class AuthService {
       )
     };
 
-    return this.http.post(`${this.apiUrl}/user/authenticate`, {}, options).pipe(
+    return this.http.post(`/api/user/authenticate`, {}, options).pipe(
       tap(result => {
         this.setSession(result);
       }),
@@ -51,7 +49,7 @@ export class AuthService {
         .set("password", user.password)
         .set("confirm", user.confirm)
     };
-    return this.http.post(`${this.apiUrl}/user/register`, {}, options);
+    return this.http.post(`/api/user/register`, {}, options);
   }
 
   private setSession(authResult) {
