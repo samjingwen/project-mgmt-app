@@ -29,12 +29,12 @@ export class BoardsService {
   }
 
   getBoardById(boardId: string) {
-    return this.http.get(`/api/boards/${boardId}`);
+    return this.http.get(`api/boards/${boardId}`);
   }
 
   getBoardsOfCurrentUser() {
     return this.http
-      .get(`/api/boards/user/${this.authService.currentUserId}`)
+      .get(`api/boards/user/${this.authService.currentUserId}`)
       .pipe(
         map(data => {
           return data as Array<any>;
@@ -81,7 +81,7 @@ export class BoardsService {
     const params = new HttpParams()
       .set("userId", this.authService.currentUserId)
       .set("displayName", this.authService.loggedInUser);
-    return this.http.post(`/api/boards/create/`, params);
+    return this.http.post(`api/boards/create/`, params);
   }
 
   updateGroup(group) {
@@ -135,13 +135,13 @@ export class BoardsService {
 
   addOwnertoBoard(user) {
     // const params = new HttpParams().set("user_id", userId);
-    return this.http.post(`/api/boards/owner`, {
+    return this.http.post(`api/boards/owner`, {
       user,
       boardId: this.selectedBoard
     });
   }
 
   getAllUsers() {
-    return this.http.get("/api/user/all");
+    return this.http.get("api/user/all");
   }
 }
