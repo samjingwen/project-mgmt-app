@@ -11,9 +11,9 @@ const dbConfig = {
   connectionLimit: 4,
 };
 
-dbConfig.ssl = {
-  ca: process.env.DB_CA,
-};
+// dbConfig.ssl = {
+//   ca: process.env.DB_CA,
+// };
 
 // if (fs.existsSync(process.env.DB_CA_CERT)) {
 //   console.log('reading from file system...');

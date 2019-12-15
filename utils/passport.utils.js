@@ -63,7 +63,7 @@ const validateToken = (req, res, next) => {
       issuer: 'productivv',
     };
     try {
-      result = jwt.verify(token, process.env.JWT_SECRET, options);
+      result = jwt.verify(token, process.env.JWT_SECRET);
 
       req.decoded = result;
       console.log(req.decoded);
