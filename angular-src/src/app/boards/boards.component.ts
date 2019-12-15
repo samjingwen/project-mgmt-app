@@ -55,6 +55,10 @@ export class BoardsComponent implements OnInit {
     })
   }
 
+  addOwner(){
+    this.boardsService.addOwnertoBoard().subscribe();
+  }
+
   changeBoard() {
     this.boardsService.selectedBoard$.next(this.boardControl.value);
     console.log(this.boardControl.value);

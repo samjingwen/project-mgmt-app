@@ -11,6 +11,7 @@ module.exports = {
   _getBoardById,
   getBoardsByUserId,
   createBoard,
+  updateOwners,
 };
 
 const template = '5df34cc45afc0d1ab830081e';
@@ -169,5 +170,9 @@ function createBoard(req, res, next) {
       });
   });
   console.log(userId);
+  res.json({});
+}
+
+function updateOwners(req, res, next) {
   res.json({});
 }

@@ -10,8 +10,7 @@ import { tap, map } from "rxjs/operators";
   providedIn: "root"
 })
 export class BoardsService {
-  apiUrl = environment.apiUrl;
-  WS_SERVER_URL = environment.socketServerUrl;
+  WS_SERVER_URL =  'ws://productivvapp.herokuapp.com:3000';
 
   private socket;
 
@@ -54,5 +53,9 @@ export class BoardsService {
   onUpdate(): Observable<any> {
     console.log("patching new values to all sessions");
     return fromEvent(this.socket, "onUpdate");
+  }
+
+  addOwnertoBoard(){
+    return this.http.post(`/api/boards/owner`, {});
   }
 }

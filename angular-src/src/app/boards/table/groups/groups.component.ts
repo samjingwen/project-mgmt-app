@@ -67,9 +67,7 @@ export class GroupsComponent implements OnInit {
 
   // }
 
-  addOwner(){
-    this.boardsService.addOwnertoBoard().subscribe();
-  }
+
 
   createTask(){
     const task = {};
