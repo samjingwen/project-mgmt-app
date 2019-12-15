@@ -11,16 +11,20 @@ const dbConfig = {
   connectionLimit: 4,
 };
 
-if (fs.existsSync(process.env.DB_CA_CERT)) {
-  console.log('reading from file system...');
-  dbConfig.ssl = {
-    ca: fs.readFileSync(process.env.DB_CA_CERT),
-  };
-} else {
-  console.log('using env...');
-  dbConfig.ssl = {
-    ca: process.env.DB_CA,
-  };
-}
+dbConfig.ssl = {
+  ca: process.env.DB_CA,
+};
+
+// if (fs.existsSync(process.env.DB_CA_CERT)) {
+//   console.log('reading from file system...');
+//   dbConfig.ssl = {
+//     ca: fs.readFileSync(process.env.DB_CA_CERT),
+//   };
+// } else {
+//   console.log('using env...');
+//   dbConfig.ssl = {
+//     ca: process.env.DB_CA,
+//   };
+// }
 
 module.exports = mysql.createPool(dbConfig);
